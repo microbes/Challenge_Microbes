@@ -2,6 +2,10 @@
 
 Welcome to the MicroBES Challenge, here you will find all the ressources you need to start the projet !
 
+## Starting kit
+
+We provide a starting kit in Python.
+
 ## Data
 
 Data needed to do the challenge is available in the **data** folder. It contains the 3 datasets in CSV and ARFF format.
@@ -24,7 +28,3 @@ valid_set.arff | 2.4 MB
 test_set.arff | 2.1 MB
 data_csv.zip | 1.7 MB (15.1 MB unzipped)
 data_arff.zip | 1.8 MB (15.7 MB unzipped)
-
-## Starting kit
-
-We provide a starting kit in Python.
