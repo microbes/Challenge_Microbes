@@ -2,10 +2,6 @@
 
 Welcome to the MicroBES Challenge, here you will find all the ressources you need to start the projet !
 
-## Starting kit
-
-We provide a starting kit in Python.
-
 ## Data
 
 Data needed to do the challenge is available in the **data** folder. It contains the 3 datasets in CSV and ARFF format.
@@ -28,3 +24,13 @@ valid_set.arff | 2.4 MB
 test_set.arff | 2.1 MB
 data_csv.zip | 1.7 MB (15.1 MB unzipped)
 data_arff.zip | 1.8 MB (15.7 MB unzipped)
+
+## Starting kit
+
+We provide a starter kit for scikit-learn (Python) and Weka (Java) :
+* the scikit-learn starter kit is a ipython notebook
+* the Weka starter kit contains 2 java files : **GettingStarted.java** which is a minimal working example to directly get results and see how the weka library works, **GoingFurther.java** implementing more functions and offer more options for the classifiers.
+
+## Misc
+
+This folder have 2 files, **example_submission.zip** which provides an exemple of how a submission should be formatted and **score.py** the score function used in the challenge.
