@@ -27,71 +27,71 @@ import weka.core.Instances;
  */
 public class GettingStarted {
 
-    public static void main(String[] args) throws Exception {
-        
-    	// Path for the 3 datasets
-    	String trainPath = "C:/Users/Charles/Desktop/Travail/3A/UE Projet/data/train_set.arff";
-    	String validPath = "C:/Users/Charles/Desktop/Travail/3A/UE Projet/data/valid_set.arff";
-    	String testPath = "C:/Users/Charles/Desktop/Travail/3A/UE Projet/data/test_set.arff";
+	public static void main(String[] args) throws Exception {
+		
+		// Path for the 3 datasets
+		String trainPath = "C:/Users/Charles/Desktop/Travail/3A/UE Projet/data/train_set.arff";
+		String validPath = "C:/Users/Charles/Desktop/Travail/3A/UE Projet/data/valid_set.arff";
+		String testPath = "C:/Users/Charles/Desktop/Travail/3A/UE Projet/data/test_set.arff";
 
-    	
-    	// Create instances
-    	Instances trainData = new Instances(new FileReader(trainPath));
-    	Instances validData = new Instances(new FileReader(validPath));
-    	Instances testData = new Instances(new FileReader(testPath));
+		
+		// Create instances
+		Instances trainData = new Instances(new FileReader(trainPath));
+		Instances validData = new Instances(new FileReader(validPath));
+		Instances testData = new Instances(new FileReader(testPath));
 
-    	
-    	// Set the attribute to predict (the last one) in each dataset
-    	int ind = trainData.numAttributes() - 1;
-    	trainData.setClassIndex(ind);
-    	validData.setClassIndex(ind);
-    	testData.setClassIndex(ind);
+		
+		// Set the attribute to predict (the last one) in each dataset
+		int ind = trainData.numAttributes() - 1;
+		trainData.setClassIndex(ind);
+		validData.setClassIndex(ind);
+		testData.setClassIndex(ind);
 
-    	
-    	// Extract the attribute to predict 
-    	// in order to convert predictions index to prediction label later
-    	Attribute timeInHospital = trainData.attribute(ind);
- 
-    	
-    	// Define a model (J48 is a decision tree) and train it
-    	Classifier model = new J48();
-    	model.buildClassifier(trainData);
- 
-    	
-    	// Define an Evaluation object to predict and FastVector to store the results for the valid dataset
-    	Evaluation validEval = new Evaluation(trainData);
-    	validEval.evaluateModel(model, validData);
-    	FastVector validPred = validEval.predictions();
-    	
-    	
-    	// The same for the test dataset
-    	Evaluation testEval = new Evaluation(trainData);
-    	testEval.evaluateModel(model, testData);
-    	FastVector testPred = testEval.predictions();
-    	
-    	
-    	// Define a PrintWriter to save predicted value in files
-    	// NOTE : submitted files on Codalab must have the name "valid.predict" and "test.predict" 	
-    	PrintWriter pw;
-    	
-    	
-    	// Save the predicted values from the valid dataset
-    	pw = new PrintWriter("valid.predict", "UTF-8");
-    	for (int i = 0; i < validPred.size(); i++) {
+		
+		// Extract the attribute to predict 
+		// in order to convert predictions index to prediction label later
+		Attribute timeInHospital = trainData.attribute(ind);
+		
+		
+		// Define a model (J48 is a decision tree) and train it
+		Classifier model = new J48();
+		model.buildClassifier(trainData);
+		
+		
+		// Define an Evaluation object to predict and FastVector to store the results for the valid dataset
+		Evaluation validEval = new Evaluation(trainData);
+		validEval.evaluateModel(model, validData);
+		FastVector validPred = validEval.predictions();
+		
+		
+		// The same for the test dataset
+		Evaluation testEval = new Evaluation(trainData);
+		testEval.evaluateModel(model, testData);
+		FastVector testPred = testEval.predictions();
+		
+		
+		// Define a PrintWriter to save predicted value in files
+		// NOTE : submitted files on Codalab must have the name "valid.predict" and "test.predict" 	
+		PrintWriter pw;
+		
+		
+		// Save the predicted values from the valid dataset
+		pw = new PrintWriter("valid.predict", "UTF-8");
+		for (int i = 0; i < validPred.size(); i++) {
 			double val = ((NominalPrediction) validPred.elementAt(i)).predicted();
 			pw.print(timeInHospital.value((int) val) + "\n");
 		}
-    	pw.close();
-    	
-    	
-    	// Save the predicted values from the test dataset
-    	pw = new PrintWriter("test.predict", "UTF-8");
-    	for (int i = 0; i < testPred.size(); i++) {
+		pw.close();
+		
+		
+		// Save the predicted values from the test dataset
+		pw = new PrintWriter("test.predict", "UTF-8");
+		for (int i = 0; i < testPred.size(); i++) {
 			double val = ((NominalPrediction) testPred.elementAt(i)).predicted();
 			pw.print(timeInHospital.value((int) val) + "\n");
 		}
-    	pw.close();
+		pw.close();
 
-   }
+	}
 	
 }

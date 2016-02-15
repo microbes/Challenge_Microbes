@@ -45,20 +45,20 @@ public class GoingFurther {
 	 * @throws Exception raised if one path is incorrect
 	 */
 	public static Instances[] importData(String trainPath, String validPath, String testPath) throws Exception {
-    	
+		
 		// Create instances
-    	Instances trainData = new Instances(new FileReader(trainPath));
-    	Instances validData = new Instances(new FileReader(validPath));
-    	Instances testData = new Instances(new FileReader(testPath));
+		Instances trainData = new Instances(new FileReader(trainPath));
+		Instances validData = new Instances(new FileReader(validPath));
+		Instances testData = new Instances(new FileReader(testPath));
 
-    	// Set the attribute to predict (the last one) in each dataset
-    	int ind = trainData.numAttributes() - 1;
-    	trainData.setClassIndex(ind);
-    	validData.setClassIndex(ind);
-    	testData.setClassIndex(ind);
-    	
-    	return new Instances[]{trainData, validData, testData};
-    	
+		// Set the attribute to predict (the last one) in each dataset
+		int ind = trainData.numAttributes() - 1;
+		trainData.setClassIndex(ind);
+		validData.setClassIndex(ind);
+		testData.setClassIndex(ind);
+		
+		return new Instances[]{trainData, validData, testData};
+		
 	}
 	
 	
@@ -75,9 +75,9 @@ public class GoingFurther {
 	public static FastVector predict(Classifier model, Instances dataToTrain, Instances dataToPredict) throws Exception {
 		
 		// Compute the predictions
-    	Evaluation eval = new Evaluation(dataToTrain);
-    	eval.evaluateModel(model, dataToPredict);
-    	return eval.predictions();
+		Evaluation eval = new Evaluation(dataToTrain);
+		eval.evaluateModel(model, dataToPredict);
+		return eval.predictions();
 		
 	}
 	
@@ -92,14 +92,14 @@ public class GoingFurther {
 	 * @throws Exception - If the file cannot be opened
 	 */
 	public static void savePredictions(FastVector predictions, String filename, Attribute timeInHospital) throws Exception {
-    	
+		
 		// Define a PrintWriter et write the predictions in the file
 		PrintWriter pw = new PrintWriter(filename, "UTF-8");
-    	for (int i = 0; i < predictions.size(); i++) {
+		for (int i = 0; i < predictions.size(); i++) {
 			double val = ((NominalPrediction) predictions.elementAt(i)).predicted();
 			pw.print(timeInHospital.value((int) val) + "\n");
 		}
-    	pw.close();
+		pw.close();
 	}
 	
 	
@@ -145,55 +145,55 @@ public class GoingFurther {
 	 * @param args
 	 * @throws Exception
 	 */
-    public static void main(String[] args) throws Exception {
-        
-    	// Path for the 3 datasets
-    	String trainPath = "C:/Users/Charles/Desktop/Travail/3A/UE Projet/data/train_set.arff";
-    	String validPath = "C:/Users/Charles/Desktop/Travail/3A/UE Projet/data/valid_set.arff";
-    	String testPath = "C:/Users/Charles/Desktop/Travail/3A/UE Projet/data/test_set.arff";
+	public static void main(String[] args) throws Exception {
+		
+		// Path for the 3 datasets
+		String trainPath = "C:/Users/Charles/Desktop/Travail/3A/UE Projet/data/train_set.arff";
+		String validPath = "C:/Users/Charles/Desktop/Travail/3A/UE Projet/data/valid_set.arff";
+		String testPath = "C:/Users/Charles/Desktop/Travail/3A/UE Projet/data/test_set.arff";
 
-    	
-    	// Import the datasets in an array containing {train, valid, test}
-    	Instances[] data = importData(trainPath, validPath, testPath);
-    	
-    	
-    	// Extract the attribute to predict 
-    	// in order to convert predictions index to prediction label later
-    	Attribute timeInHospital = data[0].attribute(data[0].numAttributes() - 1);
+		
+		// Import the datasets in an array containing {train, valid, test}
+		Instances[] data = importData(trainPath, validPath, testPath);
+		
+		
+		// Extract the attribute to predict 
+		// in order to convert predictions index to prediction label later
+		Attribute timeInHospital = data[0].attribute(data[0].numAttributes() - 1);
  
-    	
-    	/* Define a model
-    	 * You can use different ones and different parameters:
-    	 *     - J48 : a decision tree)
-    	 *     - Naive Bayes
-    	 *     - SMO : a SVM, takes lot of memory (more heap space can be needed for the JVM)
-    	 *     - RandomForest : takes also lot of memory
-    	 *     - AdaBoostM1
-    	 * see http://weka.sourceforge.net/doc.dev/weka/classifiers/Classifier.html for a list of classifiers
-    	 */
-    	//Classifier model = new J48();
-    	//Classifier model = new NaiveBayes();
-    	//Classifier model = new SMO();
-    	//Classifier model = new RandomForest();
-    	//Classifier model = new AdaBoostM1();
-    	Classifier model = new J48();
-    	model.buildClassifier(data[0]);
-    	
-    	
-    	// Compute the score of the predictoin model on the training dataset
-    	FastVector trainPred = predict(model, data[0], data[0]);
-    	double score = getScore(trainPred, data[0], timeInHospital);
-    	System.out.println("Score on the training set : " + score);
-    	
-    	// Predict for the valid dataset and the test dataset
-    	FastVector validPred = predict(model, data[0], data[1]);
-    	FastVector testPred = predict(model, data[0], data[2]);
-    	
-    	
-    	// Write the prediction values in files
-    	// NOTE : submitted files on Codalab must have the name "valid.predict" and "test.predict"
-    	savePredictions(validPred, "valid.predict", timeInHospital);
-    	savePredictions(testPred, "test.predict", timeInHospital);
+		
+		/* Define a model
+		 * You can use different ones and different parameters:
+		 *     - J48 : a decision tree)
+		 *     - Naive Bayes
+		 *     - SMO : a SVM, takes lot of memory (more heap space can be needed for the JVM)
+		 *     - RandomForest : takes also lot of memory
+		 *     - AdaBoostM1
+		 * see http://weka.sourceforge.net/doc.dev/weka/classifiers/Classifier.html for a list of classifiers
+		 */
+		//Classifier model = new J48();
+		//Classifier model = new NaiveBayes();
+		//Classifier model = new SMO();
+		//Classifier model = new RandomForest();
+		//Classifier model = new AdaBoostM1();
+		Classifier model = new J48();
+		model.buildClassifier(data[0]);
+		
+		
+		// Compute the score of the predictoin model on the training dataset
+		FastVector trainPred = predict(model, data[0], data[0]);
+		double score = getScore(trainPred, data[0], timeInHospital);
+		System.out.println("Score on the training set : " + score);
+		
+		// Predict for the valid dataset and the test dataset
+		FastVector validPred = predict(model, data[0], data[1]);
+		FastVector testPred = predict(model, data[0], data[2]);
+		
+		
+		// Write the prediction values in files
+		// NOTE : submitted files on Codalab must have the name "valid.predict" and "test.predict"
+		savePredictions(validPred, "valid.predict", timeInHospital);
+		savePredictions(testPred, "test.predict", timeInHospital);
 
    }
 	
