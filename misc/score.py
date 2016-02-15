@@ -7,7 +7,7 @@ def evaluate(solution,prediction):
     ones = np.ones_like(solution)
     score = 0
     if (len(solution)!=len(prediction)):
-        print("the length of the prediction list must be equal to: "+str(len(solution))+"instead of :"+str(len(prediction)))
+        print("the length of the prediction list must be equal to: "+str(len(solution))+" instead of:"+str(len(prediction)))
         return score
     else:
         TP = float(np.dot((solution + ones),(prediction + ones)))/4.0
